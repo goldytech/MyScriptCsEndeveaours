@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{176018E3-BEE6-443D-A95E-2C8D73749F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCs.Hosting", "src\ScriptCs.Hosting\ScriptCs.Hosting.csproj", "{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78} = {176018E3-BEE6-443D-A95E-2C8D73749F0E}
+	EndGlobalSection
+EndGlobal
