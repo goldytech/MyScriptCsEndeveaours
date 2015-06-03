@@ -1,4 +1,4 @@
-﻿namespace ScriptCs.Hosting
+﻿namespace ScriptCs.MyHosting
 {
     using System;
     using System.Collections.Generic;
@@ -11,6 +11,7 @@
     using ScriptCs.Contracts;
     using ScriptCs.Engine.Mono;
     using ScriptCs.Engine.Roslyn;
+    using ScriptCs.Hosting;
 
     using LogLevel = ScriptCs.Contracts.LogLevel;
 
@@ -42,16 +43,18 @@
             {
                 throw new ArgumentNullException("paramReply");
             }
+
             if (scriptToBeExecuted == null)
             {
                 throw new ArgumentNullException("scriptToBeExecuted");
             }
+
             this.reply = paramReply;
             this.scriptToBeExecuted = scriptToBeExecuted;
             this.CreateScriptServices(false, LogLevel.Debug, this.reply);
         }
 
-        public  ScriptResult Execute()
+        public ScriptResult Execute()
         {
             var scriptServices = this.SetupExecution();
             var scriptResult = this.scriptExecutor.Execute(this.scriptToBeExecuted.ScriptContent, string.Empty);
@@ -81,11 +84,14 @@
             return scriptResult;
         }
 
-        private  ScriptServices SetupExecution()
+        private ScriptServices SetupExecution()
         {
-            this.reply(new ScriptExecutionLifetimeStatus { ExecutionLifetime = ScriptExecutionLifetime.Started });
+            this.reply(new ScriptExecutionLifetimeStatus
+            {
+                ExecutionLifetime = ScriptExecutionLifetime.Started
+            });
             var scriptServices = this.scriptservicesBuilder.Build();
-            Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory , scriptServices.FileSystem.BinFolder);
+            Environment.CurrentDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, scriptServices.FileSystem.BinFolder);
             this.scriptExecutor = scriptServices.Executor;
             var scriptPackResolver = scriptServices.ScriptPackResolver;
             scriptServices.InstallationProvider.Initialize();
@@ -96,26 +102,43 @@
                 this.scriptToBeExecuted.LocalDependencies,
                 scriptServices.Logger);
 
-            this.scriptExecutor.Initialize(assemblies,scriptPackResolver.GetPacks());
-            this.scriptExecutor.ImportNamespaces(this.scriptToBeExecuted.Namespaces);
-            this.scriptExecutor.AddReferences(this.scriptToBeExecuted.LocalDependencies);
+            this.scriptExecutor.Initialize(assemblies, scriptPackResolver.GetPacks());
+            var namespaces = this.scriptToBeExecuted.Namespaces;
+            if (namespaces != null)
+            {
+                this.scriptExecutor.ImportNamespaces(namespaces);
+            }
+            var localDependencies = this.scriptToBeExecuted.LocalDependencies;
+            if (localDependencies != null)
+            {
+                this.scriptExecutor.AddReferences(localDependencies);
+            }
             return scriptServices;
 
 
 
 
         }
-        private  IEnumerable<IPackageReference> PrepareAdditionalPackages(IEnumerable<string> dependencies)
+        private IEnumerable<IPackageReference> PrepareAdditionalPackages(IEnumerable<string> dependencies)
         {
-            return from dep in dependencies
-                   select new PackageReference(dep, new FrameworkName(".NETFramework,Version=v4.0"), string.Empty);
+            if (dependencies != null)
+            {
+                return from dep in dependencies
+                       select new PackageReference(dep, new FrameworkName(".NETFramework,Version=v4.0"), string.Empty);
+            }
+
+            return null;
         }
+
         private IEnumerable<string> PreparePackages(IPackageAssemblyResolver packageAssemblyResolver, IPackageInstaller packageInstaller, IEnumerable<IPackageReference> additionalNuGetReferences, IEnumerable<string> localDependencies, ILog logger)
         {
             var workingDirectory = Environment.CurrentDirectory;
 
             var packages = packageAssemblyResolver.GetPackages(workingDirectory);
-            packages = packages.Concat(additionalNuGetReferences);
+            if (additionalNuGetReferences != null)
+            {
+                packages = packages.Concat(additionalNuGetReferences);
+            }
 
             try
             {
@@ -127,11 +150,14 @@
                 logger.ErrorFormat("Installation failed: {0}.", e.Message);
             }
             var assemblyNames = packageAssemblyResolver.GetAssemblyNames(workingDirectory);
-            assemblyNames = assemblyNames.Concat(localDependencies);
+            if (localDependencies != null)
+            {
+                assemblyNames = assemblyNames.Concat(localDependencies);
+            }
             return assemblyNames;
         }
 
-        private  void CreateScriptServices(bool useMono, LogLevel logLevel, Action<object> reply)
+        private void CreateScriptServices(bool useMono, LogLevel logLevel, Action<object> reply)
         {
             var console = new MessagingConsole(reply);
             var configurator = new LoggerConfigurator(logLevel);

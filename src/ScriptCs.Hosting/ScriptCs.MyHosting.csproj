@@ -7,8 +7,8 @@
     <ProjectGuid>{0D7D8D30-5BE3-4080-89CE-30CC97D4DC78}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCs.Hosting</RootNamespace>
-    <AssemblyName>ScriptCs.Hosting</AssemblyName>
+    <RootNamespace>ScriptCs.MyHosting</RootNamespace>
+    <AssemblyName>ScriptCs.MyHosting</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>

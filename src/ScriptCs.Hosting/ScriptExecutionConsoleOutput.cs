@@ -1,4 +1,4 @@
-namespace ScriptCs.Hosting
+namespace ScriptCs.MyHosting
 {
     public class ScriptExecutionConsoleOutput
     {

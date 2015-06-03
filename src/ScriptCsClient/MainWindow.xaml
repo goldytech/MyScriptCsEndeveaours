@@ -1,0 +1,9 @@
+﻿<Window x:Class="ScriptCsClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button Content="Execute Hello World Program" HorizontalAlignment="Center" Margin="191,151,0,0" VerticalAlignment="Center" Width="178" Click="Button_Click"/>
+
+    </Grid>
+</Window>

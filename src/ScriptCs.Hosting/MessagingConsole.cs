@@ -1,8 +1,9 @@
-﻿namespace ScriptCs.Hosting
+﻿namespace ScriptCs.MyHosting
 {
     using System;
 
     using ScriptCs.Contracts;
+    using ScriptCs.Hosting;
 
     public class MessagingConsole : IConsole
     {

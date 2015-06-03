@@ -1,8 +1,10 @@
-namespace ScriptCs.Hosting
+namespace ScriptCs.MyHosting
 {
     using System;
     using System.IO;
     using System.Text;
+
+    using ScriptCs.Hosting;
 
     /// <summary>
     /// The messaging writer.
